@@ -1,0 +1,6 @@
+- Improved, interactive plotting
+- Ambient room temp sensor
+- Web interface (Could just print cmd line tables using some basic html)
+- Tablet/phone app
+- Better way of setting up database, configuring.
+- Way of exporting/importing config
