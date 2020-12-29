@@ -1,3 +1,6 @@
+#! /usr/bin/env python3
+
+
 import requests
 import json
 from datetime import datetime
