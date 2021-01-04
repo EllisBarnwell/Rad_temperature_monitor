@@ -1,0 +1,12 @@
+[DEFAULT]
+querySensorsTime_sec = 60
+
+[DatabaseSettings]
+databasePath = C:\Path\To\Radiator_temp_project\MyRadTempDatabase.sqlite
+
+[DeviceSettings]
+ipAddresses = ["IPAddress1", "IPAddress2"]
+
+[PrintSettings]
+nRowsToPrint = -1
+printHeaderEveryNRows = 50
