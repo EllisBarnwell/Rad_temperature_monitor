@@ -1,3 +1,5 @@
+#! /usr/bin/env python3
+
 import sqlite3
 from sqlite3 import Error
 import pandas as pd
