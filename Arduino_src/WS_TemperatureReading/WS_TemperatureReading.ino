@@ -5,6 +5,9 @@
 #include <DallasTemperature.h>
 #include <ArduinoJson.h>
 
+// get ssid details
+#include "WS_TemperatureReading.h"
+
 // GPIO where the DS18B20 is connected to
 const int oneWireBus = 2; // D4 
 
@@ -21,9 +24,6 @@ int nDevices = 0;
 DeviceAddress tempDeviceAddress;
 char deviceAddressBuffer[17];
 
-// Replace with your network credentials
-const char* ssid     = "ENTER_SSID_IN_THE_QUOTES";
-const char* password = "ENTER_PASSWORD_IN_THE_QUOTES";
 
 ESP8266WebServer server(80);    // Create a webserver object that listens for HTTP request on port 80
 
