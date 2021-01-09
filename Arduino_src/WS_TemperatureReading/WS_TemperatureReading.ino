@@ -5,6 +5,9 @@
 #include <DallasTemperature.h>
 #include <ArduinoJson.h>
 
+// get ssid details
+#include "WS_TemperatureReading.h"
+
 // GPIO where the DS18B20 is connected to
 const int oneWireBus = 2; // D4 
 
@@ -21,9 +24,6 @@ int nDevices = 0;
 DeviceAddress tempDeviceAddress;
 char deviceAddressBuffer[17];
 
-// Replace with your network credentials
-const char* ssid     = "ENTER_SSID_IN_THE_QUOTES";
-const char* password = "ENTER_PASSWORD_IN_THE_QUOTES";
 
 ESP8266WebServer server(80);    // Create a webserver object that listens for HTTP request on port 80
 
@@ -81,6 +81,16 @@ void handleRoot() {
 
   Serial.print("Number of sensors is ");
   Serial.print(nDevices);
+  // if there are no sensors try starting again
+  if (0 == nDevices) {
+    // try begin again
+    sensors.begin();
+    // if there are still no sensors say so
+    if (0 == nDevices) {
+      server.send(404, "text/plain", "No Sensors found");
+      return;
+    }
+  }
 
   sensors.requestTemperatures(); 
 
@@ -96,7 +106,7 @@ void handleRoot() {
       Serial.print(temperatureCByAddress);
       Serial.println("ºC");
       Serial.println("");
-
+      
       DynamicJsonDocument objDoc(sizePerJsonObject * nDevices);
 
       JsonObject sensorInfo = objDoc.to<JsonObject>();
@@ -113,6 +123,14 @@ void handleRoot() {
   String serialisedJson;
   serializeJson(arrayDoc,serialisedJson);
   serializeJson(arrayDoc,Serial);
+  // if somebody has uplugged the sensors 
+  // set nunmber of sensors to zero and tell them so
+  if (arrayDoc.size() == 0) {
+    nDevices = 0;
+    server.send(404, "text/plain", "No Sensors found");
+    return;
+  }
+
   
   server.send(200, "text/json", serialisedJson);   // Send HTTP status 200 (Ok) and send some text to the browser/client
 }

@@ -1,0 +1,6 @@
+// This provides your network credentials.
+// Copy this file to WS_TemperatureReading.h
+// Replace with your network credentials
+const char* ssid     = "ENTER_SSID_IN_THE_QUOTES";
+const char* password = "ENTER_PASSWORD_IN_THE_QUOTES";
+
