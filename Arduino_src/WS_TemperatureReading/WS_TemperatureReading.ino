@@ -85,6 +85,7 @@ void handleRoot() {
   if (0 == nDevices) {
     // try begin again
     sensors.begin();
+    nDevices = sensors.getDeviceCount();
     // if there are still no sensors say so
     if (0 == nDevices) {
       server.send(404, "text/plain", "No Sensors found");
