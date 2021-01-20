@@ -9,9 +9,13 @@ This is a quick guide to setting up the system.
 1. Set up of the NodeMCU units
     To set up the NodeMCU units, it's advisable to use the Arduino IDE
     
-    After installing Arduino IDE, you will need to add the ESP8266 boards by selecting Tools -> Board -> Boards Manager and then searching ESP8266.
+    After installing Arduino IDE, the ESP8266 board URL needs adding. Navigate to preferences and under "Additional Boards Manager URLs" add the following URL, separated by a comma
     
-    You will also need to install the DallasTemperature, OneWire and ArduinoJson packages
+    http://arduino.esp8266.com/stable/package_esp8266com_index.json
+    
+    Add the ESP8266 boards by selecting Tools -> Board -> Boards Manager and then searching ESP8266.
+    
+    Install the DallasTemperature, OneWire and ArduinoJson packages
     
     Once this is done, load the code Arduino_src/WS_TemperatureReading/WS_TemperatureReading.ino file into the Arduino IDE
     
