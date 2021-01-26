@@ -34,8 +34,8 @@ void setup() {
   Serial.begin(9600);
 
   delay(2000);
-
-  sensors.begin();
+// commenting this out since I do the begin everytime I handle root
+//  sensors.begin();
 
   // Connect to Wi-Fi network with SSID and password
   Serial.println();
@@ -77,8 +77,11 @@ String getAddressString(DeviceAddress deviceAddress, boolean serialPrint) {
 }
 
 void handleRoot() {
-  nDevices = sensors.getDeviceCount();
+// begin sensors everytime to handle the situation where somebody adds sensors
+  sensors.begin()
 
+  nDevices = sensors.getDeviceCount();
+  
   Serial.print("Number of sensors is ");
   Serial.print(nDevices);
   // if there are no sensors try starting again
