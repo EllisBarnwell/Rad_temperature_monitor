@@ -57,6 +57,7 @@ void setup() {
 
   server.begin();                           // Start the server
   Serial.println("HTTP server started");
+  Serial.println(ESP.getFreeHeap());
 }
 
 void loop(){
@@ -78,12 +79,13 @@ String getAddressString(DeviceAddress deviceAddress, boolean serialPrint) {
 
 void handleRoot() {
 // begin sensors everytime to handle the situation where somebody adds sensors
-  sensors.begin()
+  sensors.begin();
+  Serial.println(ESP.getFreeHeap());
 
   nDevices = sensors.getDeviceCount();
   
-  Serial.print("Number of sensors is ");
-  Serial.print(nDevices);
+ // Serial.print("Number of sensors is ");
+ // Serial.println(nDevices);
   // if there are no sensors try starting again
   if (0 == nDevices) {
     // try begin again
@@ -103,13 +105,13 @@ void handleRoot() {
 
   for (int i = 0; i < nDevices; i++) {
     if(sensors.getAddress(tempDeviceAddress, i)) {
-      Serial.print("Temperature for device with address: ");
-      String deviceAddress = getAddressString(tempDeviceAddress, true);
-      Serial.println("");
+//      Serial.print("Temperature for device with address: ");
+      String deviceAddress = getAddressString(tempDeviceAddress, false);
+//      Serial.println("");
       float temperatureCByAddress = sensors.getTempC(tempDeviceAddress);
-      Serial.print(temperatureCByAddress);
-      Serial.println("ºC");
-      Serial.println("");
+//      Serial.print(temperatureCByAddress);
+//      Serial.println("ºC");
+//      Serial.println("");
       
       DynamicJsonDocument objDoc(sizePerJsonObject * nDevices);
 
@@ -118,15 +120,16 @@ void handleRoot() {
       sensorInfo["SensorID"] = deviceAddress;
       sensorInfo["TempDegC"] = temperatureCByAddress;
 
-      serializeJson(sensorInfo,Serial);
+      // serializeJson(sensorInfo,Serial);
 
       sensorsJsonArray.add(sensorInfo);
     }
+    
   }
-
+ 
   String serialisedJson;
   serializeJson(arrayDoc,serialisedJson);
-  serializeJson(arrayDoc,Serial);
+  // serializeJson(arrayDoc,Serial);
   // if somebody has uplugged the sensors 
   // set nunmber of sensors to zero and tell them so
   if (arrayDoc.size() == 0) {
