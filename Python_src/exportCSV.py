@@ -1,3 +1,5 @@
+#! /usr/bin/env python3
+
 import DBAccess
 import configparser
 import pandas as pd

@@ -9,19 +9,29 @@ This is a quick guide to setting up the system.
 1. Set up of the NodeMCU units
     To set up the NodeMCU units, it's advisable to use the Arduino IDE
     
-    After installing Arduino IDE, you will need to add the ESP8266 boards by selecting Tools -> Board -> Boards Manager and then searching ESP8266.
+    After installing Arduino IDE, the ESP8266 board URL needs adding. Navigate to preferences and under "Additional Boards Manager URLs" add the following URL, separated by a comma
     
-    You will also need to install the DallasTemperature, OneWire and ArduinoJson packages
+    http://arduino.esp8266.com/stable/package_esp8266com_index.json
     
-    Once this is done, load the code Arduino_src/WS_TemperatureReading.ino/WS_TemperatureReading.ino.ino file into the Arduino IDE
+    Add the ESP8266 boards by selecting Tools -> Board -> Boards Manager and then searching ESP8266.
     
-    Enter the WiFi SSID and passwords into the network credentials and click upload.
+    Install the DallasTemperature, OneWire and ArduinoJson packages
     
-    To get the IP address of the unit, open a serial monitor with Tools -> Serial MOnitor. The IP address will be printed as the unit boots. To get the IP to show, either restart the unit or reupload the code with the serial monitor open.
+    Once this is done, load the code Arduino_src/WS_TemperatureReading/WS_TemperatureReading.ino file into the Arduino IDE
+    
+    Enter the WiFi SSID and password into the network credentials stored in the header file Arduino_src/WS_TemperatureReading/WS_TemperatureReading.h. Click upload to flash the board.
+    
+    To get the IP address of the unit, open a serial monitor with Tools -> Serial Monitor. The IP address will be printed as the unit boots. To get the IP to show, either restart the unit or reupload the code with the serial monitor open.
     
     Note, the baud rate should be set to 9600
 
-2. Access data with web services
+2. Attach sensors
+
+    The sensors must be attached to the pins for 3.3V, GND and a data pin. The data pin used can be changed in the arduino code and the default value is pin 2 (which is marked as D4).
+    
+    Any number of sensors can be attached in parallel to the same data pin.
+
+3. Access data with web services
     Once the NodeMCU unit is powered on, the data can be accessed via a web service using port 80.
     
     Using a tool such as curl, test this web service by typing http://<IPAddress>:80 where the IP address is the unit under test. You should get a response in JSON similar to the following which will give a list of sensorIDs and temperatures
@@ -114,6 +124,9 @@ This is a quick guide to setting up the system.
     
     python PrintRadiatorSummaries.py -h
     
-11. Calibration
+11. Export to CSV (exportCSV.py)
+    A CSV export of the data can be acquired using the exportCSV.py script. When the script is run, all data associated with the current configuration is exported to export.csv in the same directory as the script.
+    
+12. Calibration
     TODO
     
