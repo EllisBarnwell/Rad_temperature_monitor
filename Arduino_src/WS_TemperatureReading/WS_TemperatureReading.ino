@@ -31,11 +31,12 @@ void handleRoot();              // function prototypes for HTTP handlers
 void handleNotFound();
 
 void setup() {
+#ifdef DEBUG
   Serial.begin(9600);
-
+#endif
   delay(2000);
 // commenting this out since I do the begin everytime I handle root
-//  sensors.begin();
+  sensors.begin();
 
   // Connect to Wi-Fi network with SSID and password
 #ifdef DEBUG
@@ -89,21 +90,20 @@ String getAddressString(DeviceAddress deviceAddress, boolean serialPrint) {
 
 void handleRoot() {
 // begin sensors everytime to handle the situation where somebody adds sensors
-  sensors.begin();
-// #ifdef DEBUG
+//  sensors.begin();
+#ifdef DEBUG
   Serial.println(ESP.getFreeHeap());
-// #endif
+#endif
   nDevices = sensors.getDeviceCount();
-// #ifdef DEBUG
+#ifdef DEBUG
   Serial.print("Number of sensors is ");
   Serial.println(nDevices);
-// #endif
+#endif
   if (0 == nDevices) {
     // if there are still no sensors say so
       server.send(404, "text/plain", "No Sensors found");
       return;
-    }
-  }
+   }
 
   sensors.requestTemperatures(); 
 
@@ -113,10 +113,14 @@ void handleRoot() {
   for (int i = 0; i < nDevices; i++) {
     if(sensors.getAddress(tempDeviceAddress, i)) {
 #ifdef DEBUG      
-      Serial.print("Temperature for device with address: ");
       String deviceAddress = getAddressString(tempDeviceAddress, true);
-      Serial.println("");
+#else
+      String deviceAddress = getAddressString(tempDeviceAddress, false);
+#endif      
       float temperatureCByAddress = sensors.getTempC(tempDeviceAddress);
+#ifdef DEBUG      
+      Serial.print("Temperature for device with address: ");
+      Serial.println("");
       Serial.print(temperatureCByAddress);
       Serial.println("ºC");
       Serial.println("");
