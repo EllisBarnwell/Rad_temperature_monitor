@@ -46,7 +46,9 @@ void setup() {
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
+#ifdef DEBUG
     Serial.print(".");
+#endif
   }
   // Print local IP address and start web server
   Serial.println("");
