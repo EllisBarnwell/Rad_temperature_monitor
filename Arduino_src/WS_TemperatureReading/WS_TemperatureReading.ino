@@ -90,14 +90,14 @@ String getAddressString(DeviceAddress deviceAddress, boolean serialPrint) {
 void handleRoot() {
 // begin sensors everytime to handle the situation where somebody adds sensors
   sensors.begin();
-#ifdef DEBUG
+// #ifdef DEBUG
   Serial.println(ESP.getFreeHeap());
-#endif
+// #endif
   nDevices = sensors.getDeviceCount();
-#ifdef DEBUG
+// #ifdef DEBUG
   Serial.print("Number of sensors is ");
   Serial.println(nDevices);
-#endif
+// #endif
   if (0 == nDevices) {
     // if there are still no sensors say so
       server.send(404, "text/plain", "No Sensors found");
