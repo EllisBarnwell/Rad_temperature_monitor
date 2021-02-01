@@ -38,9 +38,11 @@ void setup() {
 //  sensors.begin();
 
   // Connect to Wi-Fi network with SSID and password
+#ifdef DEBUG
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
+#endif
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
