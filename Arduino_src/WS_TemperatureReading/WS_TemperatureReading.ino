@@ -50,18 +50,24 @@ void setup() {
     Serial.print(".");
 #endif
   }
-  // Print local IP address and start web server
+  
+#ifdef DEBUG
+  // Print local IP address  if in debug mode
   Serial.println("");
   Serial.println("WiFi connected.");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
-  
+#endif
+ 
+  // and start web server
   server.on("/", handleRoot);               // Call the 'handleRoot' function when a client requests URI "/"
   server.onNotFound(handleNotFound);        // When a client requests an unknown URI (i.e. something other than "/"), call function "handleNotFound"
-
   server.begin();                           // Start the server
+  
+#ifdef DEBUG
   Serial.println("HTTP server started");
   Serial.println(ESP.getFreeHeap());
+#endif
 }
 
 void loop(){
@@ -84,19 +90,16 @@ String getAddressString(DeviceAddress deviceAddress, boolean serialPrint) {
 void handleRoot() {
 // begin sensors everytime to handle the situation where somebody adds sensors
   sensors.begin();
+#ifdef DEBUG
   Serial.println(ESP.getFreeHeap());
-
+#endif
   nDevices = sensors.getDeviceCount();
-  
- // Serial.print("Number of sensors is ");
- // Serial.println(nDevices);
-  // if there are no sensors try starting again
+#ifdef DEBUG
+  Serial.print("Number of sensors is ");
+  Serial.println(nDevices);
+#endif
   if (0 == nDevices) {
-    // try begin again
-    sensors.begin();
-    nDevices = sensors.getDeviceCount();
     // if there are still no sensors say so
-    if (0 == nDevices) {
       server.send(404, "text/plain", "No Sensors found");
       return;
     }
@@ -109,23 +112,24 @@ void handleRoot() {
 
   for (int i = 0; i < nDevices; i++) {
     if(sensors.getAddress(tempDeviceAddress, i)) {
-//      Serial.print("Temperature for device with address: ");
-      String deviceAddress = getAddressString(tempDeviceAddress, false);
-//      Serial.println("");
+#ifdef DEBUG      
+      Serial.print("Temperature for device with address: ");
+      String deviceAddress = getAddressString(tempDeviceAddress, true);
+      Serial.println("");
       float temperatureCByAddress = sensors.getTempC(tempDeviceAddress);
-//      Serial.print(temperatureCByAddress);
-//      Serial.println("ºC");
-//      Serial.println("");
-      
+      Serial.print(temperatureCByAddress);
+      Serial.println("ºC");
+      Serial.println("");
+#endif      
       DynamicJsonDocument objDoc(sizePerJsonObject * nDevices);
 
       JsonObject sensorInfo = objDoc.to<JsonObject>();
 
       sensorInfo["SensorID"] = deviceAddress;
       sensorInfo["TempDegC"] = temperatureCByAddress;
-
-      // serializeJson(sensorInfo,Serial);
-
+#ifdef DEBUG
+       serializeJson(sensorInfo,Serial);
+#endif
       sensorsJsonArray.add(sensorInfo);
     }
     
@@ -133,7 +137,9 @@ void handleRoot() {
  
   String serialisedJson;
   serializeJson(arrayDoc,serialisedJson);
-  // serializeJson(arrayDoc,Serial);
+#ifdef DEBUG
+  serializeJson(arrayDoc,Serial);
+#endif  
   // if somebody has uplugged the sensors 
   // set nunmber of sensors to zero and tell them so
   if (arrayDoc.size() == 0) {
