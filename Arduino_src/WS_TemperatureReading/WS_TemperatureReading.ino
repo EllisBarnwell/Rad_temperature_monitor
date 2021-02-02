@@ -36,7 +36,7 @@ void setup() {
 #endif
   delay(2000);
 // commenting this out since I do the begin everytime I handle root
-  sensors.begin();
+//  sensors.begin();
 
   // Connect to Wi-Fi network with SSID and password
 #ifdef DEBUG
@@ -90,7 +90,7 @@ String getAddressString(DeviceAddress deviceAddress, boolean serialPrint) {
 
 void handleRoot() {
 // begin sensors everytime to handle the situation where somebody adds sensors
-//  sensors.begin();
+  sensors.begin();
 #ifdef DEBUG
   Serial.println(ESP.getFreeHeap());
 #endif
