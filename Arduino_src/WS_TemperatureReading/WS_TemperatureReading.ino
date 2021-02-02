@@ -67,6 +67,7 @@ void setup() {
   
 #ifdef DEBUG
   Serial.println("HTTP server started");
+  Serial.print("Free memory is:");
   Serial.println(ESP.getFreeHeap());
 #endif
 }
@@ -92,6 +93,8 @@ void handleRoot() {
 // begin sensors everytime to handle the situation where somebody adds sensors
   sensors.begin();
 #ifdef DEBUG
+Serial.println("");
+  Serial.print("free memory is:");
   Serial.println(ESP.getFreeHeap());
 #endif
   nDevices = sensors.getDeviceCount();
