@@ -4,3 +4,6 @@
 const char* ssid     = "ENTER_SSID_IN_THE_QUOTES";
 const char* password = "ENTER_PASSWORD_IN_THE_QUOTES";
 
+// uncomment the following line if you want debug info printed to the serial port
+// #define DEBUG
+
