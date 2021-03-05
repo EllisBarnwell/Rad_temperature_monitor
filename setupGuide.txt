@@ -58,7 +58,7 @@ This is a quick guide to setting up the system.
 5. Set up database tables (CreateDBTables.py)
     If you would like to start with a fresh database, the necessary tables can be set using the command
     
-        python CreateDbTables.py
+        python CreateDBTables.py
     
     There are 3 tables in the sql database these are
     
