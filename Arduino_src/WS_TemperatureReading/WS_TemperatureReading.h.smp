@@ -1,3 +1,6 @@
+#ifndef WS_TEMPERATUREREADING_H
+#define WS_TEMPERATUREREADING_H
+
 // This provides your network credentials.
 // Copy this file to WS_TemperatureReading.h
 // Replace with your network credentials
@@ -7,3 +10,4 @@ const char* password = "ENTER_PASSWORD_IN_THE_QUOTES";
 // uncomment the following line if you want debug info printed to the serial port
 // #define DEBUG
 
+#endif
